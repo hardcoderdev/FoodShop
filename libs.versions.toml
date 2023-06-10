@@ -1,6 +1,6 @@
 [versions]
-com-android-application = "8.1.0-alpha11"
-org-jetbrains-kotlin-android = "1.8.0"
+android-gradle-plugin = "8.0.2"
+org-jetbrains-kotlin-android = "1.8.20"
 core-ktx = "1.10.1"
 appcompat = "1.6.1"
 material = "1.9.0"
@@ -14,6 +14,9 @@ adapter-delegates = "4.3.2"
 view-binding-delegate = "1.5.9"
 
 [libraries]
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org-jetbrains-kotlin-android" }
+
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -30,9 +33,10 @@ adapter-delegates-view-binding = { group = "com.hannesdorfmann", name = "adapter
 view-binding-delegate = { group = "com.github.kirich1409", name = "viewbindingpropertydelegate-noreflection", version.ref = "view-binding-delegate" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "com-android-application" }
+com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 navigation-safe-args = { id = "androidx.navigation.safeargs", version.ref = "navigation-component" }
+com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 
 [bundles]
 common-android = [ "core-ktx", "appcompat", "material", "constraintlayout" ]

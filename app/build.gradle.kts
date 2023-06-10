@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("android-app-convention")
 }
 
 android {
@@ -9,29 +10,18 @@ android {
 
     defaultConfig {
         applicationId = "hardcoder.dev.foodshop"
-        minSdk = 26
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+            isShrinkResources = true
+            @Suppress("UnstableApiUsage")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
+        debug {
+            applicationIdSuffix = ".debug"
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -6,13 +7,21 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io")
+        versionCatalogs {
+            create("libs") {
+                from(files("libs.versions.toml"))
+            }
+        }
     }
 }
 
 rootProject.name = "FoodShop"
+
 include(":app")
+include(":data")
+include(":domain")
+include(":presentation")
