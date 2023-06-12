@@ -5,9 +5,6 @@ plugins {
 }
 
 android {
-    namespace = "hardcoder.dev.foodshop"
-    compileSdk = 33
-
     defaultConfig {
         applicationId = "hardcoder.dev.foodshop"
     }
@@ -16,7 +13,6 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            @Suppress("UnstableApiUsage")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
         debug {
@@ -32,5 +28,4 @@ dependencies {
     implementation(libs.bundles.di)
     implementation(libs.bundles.ui)
     implementation(libs.bundles.adapter.delegates)
-    implementation(libs.bundles.retrofit)
 }

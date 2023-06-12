@@ -7,7 +7,6 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    @Suppress("UnstableApiUsage")
     repositories {
         google()
         mavenCentral()
@@ -21,7 +20,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "FoodShop"
 
-include(":app")
-include(":data")
-include(":domain")
-include(":presentation")
+include(
+    ":app",
+    ":data",
+    ":domain",
+    ":presentation",
+    ":foundation"
+)
