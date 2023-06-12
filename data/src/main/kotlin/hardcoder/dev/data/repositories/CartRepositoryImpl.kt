@@ -1,10 +1,10 @@
 package hardcoder.dev.data.repositories
 
+import hardcoder.dev.coroutines.mapItems
 import hardcoder.dev.data.local.dao.CartDao
 import hardcoder.dev.data.local.entities.CartLocal
 import hardcoder.dev.domain.entities.Cart
 import hardcoder.dev.domain.repositories.CartRepository
-import hardcoder.dev.foundation.mapItems
 import kotlinx.coroutines.flow.Flow
 
 class CartRepositoryImpl(private val cartDao: CartDao) : CartRepository {
@@ -18,6 +18,7 @@ class CartRepositoryImpl(private val cartDao: CartDao) : CartRepository {
     }
 
     override fun getAllItemsInCart(): Flow<List<Cart>> {
+
         return cartDao.getAllCartItems().mapItems { cartLocal ->
             cartLocal.toDomain()
         }

@@ -1,4 +1,4 @@
-package hardcoder.dev.foundation
+package hardcoder.dev.coroutines
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

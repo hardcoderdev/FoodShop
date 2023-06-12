@@ -16,6 +16,9 @@ interface DishDao {
     @Query("DELETE FROM dishes WHERE dish_id = :dishId")
     suspend fun delete(dishId: Int)
 
+    @Query("DELETE FROM dishes")
+    suspend fun deleteAllDishes()
+
     @Query("SELECT * FROM dishes")
     fun getAllDishes(): Flow<List<DishLocal>>
 }

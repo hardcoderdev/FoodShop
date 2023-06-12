@@ -13,7 +13,10 @@ import kotlinx.coroutines.flow.Flow
 interface DishWithTagDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(dishWithTagCrossRefLocal: DishTagCrossRefLocal)
+    fun insert(dishTagCrossRefLocal: DishTagCrossRefLocal)
+
+    @Query("DELETE FROM dishes_with_tags")
+    suspend fun deleteAllDishesWithTags()
 
     @Transaction
     @Query("SELECT * FROM dishes")

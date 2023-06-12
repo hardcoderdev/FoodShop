@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -27,3 +29,4 @@ include(
     ":presentation",
     ":foundation"
 )
+include(":foundation:coroutines")

@@ -4,10 +4,13 @@ plugins {
     kotlin("kapt")
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":foundation"))
-    implementation(libs.bundles.kotlin.coroutines)
+    implementation(projects.domain)
+    implementation(projects.foundation.coroutines)
     implementation(libs.bundles.retrofit)
     implementation(libs.kotlin.serialization)
     implementation(libs.bundles.room.database)
