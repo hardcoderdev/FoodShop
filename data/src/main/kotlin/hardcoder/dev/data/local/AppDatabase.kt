@@ -23,8 +23,8 @@ import hardcoder.dev.data.local.entities.TagLocal
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun categoriesDao(): CategoriesDao
-    abstract fun dishDao(): DishDao
-    abstract fun tagDao(): TagDao
-    abstract fun dishWithTagDao(): DishWithTagDao
+    abstract val categoriesDao: CategoriesDao
+    abstract val dishDao: DishDao
+    abstract val tagDao: TagDao
+    abstract val dishWithTagDao: DishWithTagDao
 }

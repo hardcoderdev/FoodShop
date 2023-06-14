@@ -8,22 +8,28 @@ import hardcoder.dev.data.remote.FoodAPI
 import hardcoder.dev.data.remote.entities.CategoryRemote
 import hardcoder.dev.domain.entities.Category
 import hardcoder.dev.domain.repositories.CategoriesRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class CategoriesRepositoryImpl(
     private val foodAPI: FoodAPI,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
+    private val ioDispatcher: CoroutineDispatcher
 ) : CategoriesRepository {
 
-    override suspend fun categoriesFlow() = appDatabase.categoriesDao()
+    private val categoriesDao = appDatabase.categoriesDao
+
+    override fun categoriesFlow() = appDatabase.categoriesDao
         .getAllCategories()
         .mapItems(CategoryLocal::toDomain)
+        .flowOn(ioDispatcher)
 
-    override suspend fun refreshCategories() {
+    override suspend fun refreshCategories() = withContext(ioDispatcher) {
         foodAPI.getAllCategories().categories.let { categoriesList ->
-            with(appDatabase) {
-                withTransaction {
-                    categoriesDao().insert(categoriesList.map(CategoryRemote::toLocal))
-                }
+            appDatabase.withTransaction {
+                categoriesDao.deleteAllCategories()
+                categoriesDao.insert(categoriesList.map(CategoryRemote::toLocal))
             }
         }
     }

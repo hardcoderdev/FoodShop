@@ -1,13 +1,17 @@
 package hardcoder.dev.domain.repositories
 
-import hardcoder.dev.domain.entities.Cart
+import hardcoder.dev.domain.entities.CartItem
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
 
-    suspend fun put(cart: Cart)
+    suspend fun put(cartItem: CartItem)
 
     suspend fun remove(itemId: Int)
 
-    fun getAllItemsInCart(): Flow<List<Cart>>
+    suspend fun increaseCount(cartItem: CartItem)
+
+    suspend fun decreaseCount(cartItem: CartItem)
+
+    fun getAllItemsInCart(): Flow<List<CartItem>>
 }

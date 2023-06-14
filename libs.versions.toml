@@ -44,6 +44,7 @@ org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.re
 navigation-safe-args = { id = "androidx.navigation.safeargs", version.ref = "navigation-component" }
 com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 
 [bundles]
 common-android = [ "core-ktx", "appcompat", "material", "constraintlayout" ]

@@ -1,11 +1,7 @@
 plugins {
     id("android-library-convention")
     alias(libs.plugins.kotlin.serialization)
-    kotlin("kapt")
-}
-
-kapt {
-    correctErrorTypes = true
+    alias(libs.plugins.kotlin.kapt)
 }
 
 dependencies {

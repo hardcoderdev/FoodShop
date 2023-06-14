@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface DishesRepository {
 
-    suspend fun dishesFlowByTag(tag: Tag): Flow<List<Dish>>
+    fun dishesFlowByTag(tag: Tag): Flow<List<Dish>>
+
+    fun tagsFlow(): Flow<List<Tag>>
 
     suspend fun refreshDishes()
 }

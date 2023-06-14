@@ -8,5 +8,7 @@ import androidx.room.PrimaryKey
 data class CartLocal(
     @PrimaryKey
     @ColumnInfo(name = "dish_id")
-    val id: Int
+    val id: Int,
+    @ColumnInfo(name = "quantity")
+    val quantity: Int
 )
