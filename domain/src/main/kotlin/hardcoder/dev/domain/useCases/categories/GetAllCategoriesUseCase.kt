@@ -1,4 +1,4 @@
-package hardcoder.dev.domain.useCases
+package hardcoder.dev.domain.useCases.categories
 
 import hardcoder.dev.domain.entities.Category
 import hardcoder.dev.domain.repositories.CategoriesRepository

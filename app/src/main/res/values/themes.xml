@@ -1,8 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.FoodShop" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Base.Theme.FoodShop" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:dialogTheme">@style/Theme.FoodShop.Dialog.Alert.Rounded</item>
+    </style>
+
+    <style name="Theme.FoodShop.Dialog.Alert.Rounded" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <item name="dialogCornerRadius">16dp</item>
     </style>
 
     <style name="Theme.FoodShop" parent="Base.Theme.FoodShop" />

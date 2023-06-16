@@ -2,6 +2,7 @@ package hardcoder.dev.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import hardcoder.dev.data.local.dao.CartDao
 import hardcoder.dev.data.local.dao.CategoriesDao
 import hardcoder.dev.data.local.dao.DishDao
 import hardcoder.dev.data.local.dao.DishWithTagDao
@@ -23,6 +24,7 @@ import hardcoder.dev.data.local.entities.TagLocal
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
+    abstract val cartDao: CartDao
     abstract val categoriesDao: CategoriesDao
     abstract val dishDao: DishDao
     abstract val tagDao: TagDao

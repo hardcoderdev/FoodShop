@@ -37,25 +37,28 @@ class DishesRepositoryImpl(
         }.flowOn(ioDispatcher)
     }
 
+    override fun getDishById(dishId: Int) = dishDao.getDishById(dishId)
+        .map(DishLocal::toDomain)
+        .flowOn(ioDispatcher)
+
     override fun tagsFlow() = tagDao.getAllTags()
         .mapItems(TagLocal::toDomain)
         .flowOn(ioDispatcher)
 
     override suspend fun refreshDishes() = withContext(ioDispatcher) {
         foodAPI.getAllDishes().dishes.let { dishes ->
+            dishDao.deleteAllDishes()
+            tagDao.deleteAllTags()
+            dishWithTagDao.deleteAllDishesWithTags()
+
             dishes.forEach { dishRemote ->
                 val dishLocal = dishRemote.toLocal()
                 val tagList = dishRemote.tagList.map { TagLocal(name = it) }
 
                 appDatabase.withTransaction {
-                    dishDao.deleteAllDishes()
                     dishDao.insert(dishLocal)
-
                     tagList.forEach { tag ->
-                        tagDao.deleteAllTags()
                         tagDao.insert(tag)
-
-                        dishWithTagDao.deleteAllDishesWithTags()
                         dishWithTagDao.insert(
                             DishTagCrossRefLocal(
                                 dishId = dishLocal.id,

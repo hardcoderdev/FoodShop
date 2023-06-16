@@ -1,6 +1,10 @@
 package hardcoder.dev.data.remote.entities
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AllCategoriesResponse(val categories: List<CategoryRemote>)
+data class AllCategoriesResponse(
+        @SerialName("сategories")
+        val categories: List<CategoryRemote>
+)

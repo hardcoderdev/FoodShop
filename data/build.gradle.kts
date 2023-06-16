@@ -6,9 +6,9 @@ plugins {
 
 dependencies {
     implementation(projects.domain)
-    implementation(projects.foundation.coroutines)
-    implementation(libs.bundles.retrofit)
-    implementation(libs.kotlin.serialization)
-    implementation(libs.bundles.room.database)
+    api(projects.foundation.coroutines)
+    api(libs.bundles.retrofit)
+    api(libs.kotlin.serialization)
+    api(libs.bundles.room.database)
     kapt(libs.room.compiler)
 }

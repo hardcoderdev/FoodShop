@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.domain)
+    api(projects.domain)
     implementation(libs.bundles.common.android)
     implementation(libs.bundles.adapter.delegates)
     implementation(libs.bundles.navigation)

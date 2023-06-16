@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="placeholder_date_and_time">12 Августа, 2023</string>
+    <string name="placeholder_location">Санкт-Петербург</string>
+    <string name="placeholder_price">390 ₽</string>
+    <string name="placeholder_weight">· 420г</string>
+    <string name="placeholder_pay_button_label">Оплатить 2 004 ₽</string>
+</resources>

@@ -1,4 +1,7 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -17,6 +20,10 @@ configure<BaseExtension> {
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(BuildConstants.JVM_TARGET)
         targetCompatibility = JavaVersion.toVersion(BuildConstants.JVM_TARGET)
+    }
+
+    if (this@configure is BaseAppModuleExtension) {
+        buildFeatures.viewBinding = true
     }
 }
 

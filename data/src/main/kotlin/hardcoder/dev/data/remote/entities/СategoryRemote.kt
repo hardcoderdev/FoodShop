@@ -10,5 +10,5 @@ data class CategoryRemote(
     @SerialName("name")
     val name: String,
     @SerialName("image_url")
-    val imageUrl: String,
+    val imageUrl: String
 )

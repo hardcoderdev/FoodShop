@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     api(libs.bundles.kotlin.coroutines)
+    api(libs.fragment.ktx)
 }

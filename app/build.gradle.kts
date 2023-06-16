@@ -1,6 +1,9 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.navigation.safe.args)
     id("android-app-convention")
 }
 
@@ -22,10 +25,13 @@ android {
 }
 
 dependencies {
+    implementation(projects.presentation)
+    implementation(projects.data)
     implementation(libs.bundles.common.android)
-    implementation(libs.bundles.kotlin.coroutines)
     implementation(libs.bundles.navigation)
     implementation(libs.bundles.di)
     implementation(libs.bundles.ui)
     implementation(libs.bundles.adapter.delegates)
+    implementation(libs.coil)
+    implementation(libs.epic.adapter)
 }

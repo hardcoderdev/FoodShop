@@ -15,11 +15,15 @@ view-binding-delegate = "1.5.9"
 kotlin-serialization = "1.5.1"
 room-database = "2.5.1"
 retrofit-kotlin-serialization = "1.0.0"
+coil = "2.4.0"
+fragment-ktx = "1.6.0"
+epic-adapter = "1.0.7"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment-ktx" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -32,11 +36,13 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-component" }
 adapter-delegates = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl", version.ref = "adapter-delegates" }
 adapter-delegates-view-binding = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl-viewbinding", version.ref = "adapter-delegates" }
+epic-adapter = { group = "com.github.epicarchitect", name = "epic-adapter", version.ref = "epic-adapter" }
 view-binding-delegate = { group = "com.github.kirich1409", name = "viewbindingpropertydelegate-noreflection", version.ref = "view-binding-delegate" }
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room-database" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room-database" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room-database" }
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

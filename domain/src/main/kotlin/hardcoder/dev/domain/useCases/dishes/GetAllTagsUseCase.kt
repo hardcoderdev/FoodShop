@@ -1,4 +1,4 @@
-package hardcoder.dev.domain.useCases
+package hardcoder.dev.domain.useCases.dishes
 
 import hardcoder.dev.domain.entities.Tag
 import hardcoder.dev.domain.repositories.DishesRepository

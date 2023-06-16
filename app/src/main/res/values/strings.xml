@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FoodShop</string>
+    <string name="bottom_menu_main_title">Главная</string>
+    <string name="bottom_menu_search_title">Поиск</string>
+    <string name="bottom_menu_cart_title">Корзина</string>
+    <string name="bottom_menu_profile_title">Аккаунт</string>
+    <string name="placeholder_category">Азиатская кухня</string>
+    <string name="pay_format">Оплатить %d ₽</string>
+    <string name="price_format">%d ₽</string>
+    <string name="weight_format">· %dг</string>
+    <string name="placeholder_dish_description">Рыба маринованная со специями, лимонным соком, соевым соусом и запечeнная в духовке с лучком, томатами и картошечкой под золотистой майонезно-сырной шубкой</string>
+    <string name="add_to_cart_button_label">Добавить в корзину</string>
 </resources>
