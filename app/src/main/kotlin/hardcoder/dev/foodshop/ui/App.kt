@@ -20,7 +20,7 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 networkModule,
-                databaseModule(this@App),
+                databaseModule,
                 useCasesModule,
                 repositoriesModule,
                 viewModelsModule

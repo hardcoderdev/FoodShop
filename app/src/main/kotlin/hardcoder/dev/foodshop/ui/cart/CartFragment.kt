@@ -10,8 +10,8 @@ import epicarchitect.recyclerview.EpicAdapter
 import epicarchitect.recyclerview.bind
 import epicarchitect.recyclerview.requireEpicAdapter
 import hardcoder.dev.coroutines.launchWith
+import hardcoder.dev.domain.useCases.cart.DishCartItem
 import hardcoder.dev.presentation.CartViewModel
-import hardcoder.dev.presentation.DishCartItem
 import hardcoderdev.foodshop.app.R
 import hardcoderdev.foodshop.app.databinding.FragmentCartBinding
 import hardcoderdev.foodshop.app.databinding.ItemCartBinding
@@ -49,15 +49,28 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun setUpRecyclerView() = with(binding) {
         categoriesRecyclerView.adapter = EpicAdapter {
             setup<DishCartItem, ItemCartBinding>(ItemCartBinding::inflate) {
-                bind { item ->
+                diffUtil {
+                    areItemsTheSame { oldItem, newItem -> oldItem.dish.id == newItem.dish.id }
+                    payload { oldItem, newItem ->
+                        if (oldItem.quantity != newItem.quantity) {
+                            Unit
+                        } else {
+                            null
+                        }
+                    }
+                }
+
+                init { item ->
                     decreaseQuantityImageView.setOnClickListener {
-                        viewModel.decrementCartItem(item)
+                        viewModel.decrementCartItem(item.value)
                     }
 
                     increaseQuantityImageView.setOnClickListener {
-                        viewModel.incrementCartItem(item)
+                        viewModel.incrementCartItem(item.value)
                     }
+                }
 
+                bind { item ->
                     titleTextView.text = item.dish.name
                     priceTextView.text = getString(R.string.price_format, item.dish.price)
                     weightTextView.text = getString(R.string.weight_format, item.dish.weight)

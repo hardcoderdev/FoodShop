@@ -3,40 +3,22 @@ package hardcoder.dev.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hardcoder.dev.domain.entities.CartItem
-import hardcoder.dev.domain.entities.Dish
 import hardcoder.dev.domain.useCases.cart.DecrementCartItemUseCase
+import hardcoder.dev.domain.useCases.cart.DishCartItem
 import hardcoder.dev.domain.useCases.cart.GetAllCartItemsUseCase
-import hardcoder.dev.domain.useCases.dishes.GetDishByIdUseCase
 import hardcoder.dev.domain.useCases.cart.IncrementCartItemUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class CartViewModel(
-    private val getDishByIdUseCase: GetDishByIdUseCase,
     private val incrementCartItemUseCase: IncrementCartItemUseCase,
     private val decrementCartItemUseCase: DecrementCartItemUseCase,
     getAllCartItemsUseCase: GetAllCartItemsUseCase,
 ) : ViewModel() {
 
-    val cartItems = getAllCartItemsUseCase().flatMapLatest { cartItemsList ->
-        if (cartItemsList.isEmpty()) flowOf(emptyList())
-        else combine(
-            cartItemsList.map { cartItem ->
-                getDishByIdUseCase(cartItem.dishId).map {
-                    it.toDishCart(cartItem.quantity)
-                }
-            }
-        ) {
-            it.toList()
-        }
-    }.stateIn(
+    val cartItems = getAllCartItemsUseCase().stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = emptyList()
@@ -62,15 +44,6 @@ class CartViewModel(
         }
     }
 }
-
-data class DishCartItem(
-    val dish: Dish,
-    val quantity: Int
-)
-
-private fun Dish.toDishCart(quantity: Int) = DishCartItem(
-    this, quantity
-)
 
 private fun DishCartItem.toCartItem() = CartItem(
     dishId = dish.id,

@@ -84,13 +84,15 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
     private fun setUpRecyclerView() = with(binding) {
         categoriesRecyclerView.adapter = EpicAdapter {
             setup<Category, ItemCategoryBinding>(ItemCategoryBinding::inflate) {
-                bind { item ->
+                init { item ->
                     root.setOnClickListener {
                         findNavController().navigate(
-                            CategoriesFragmentDirections.toDishesFragment(item.name)
+                            CategoriesFragmentDirections.toDishesFragment(item.value.name)
                         )
                     }
+                }
 
+                bind { item ->
                     titleTextView.text = item.name
                     backgroundImageView.load(item.imageUrl) {
                         crossfade(enable = true)

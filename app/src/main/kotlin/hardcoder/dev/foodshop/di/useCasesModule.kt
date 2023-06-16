@@ -51,7 +51,8 @@ val useCasesModule = module {
 
     single {
         GetAllCartItemsUseCase(
-            cartRepository = get()
+            cartRepository = get(),
+            getDishByIdUseCase = get()
         )
     }
 

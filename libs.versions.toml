@@ -16,7 +16,7 @@ room-database = "2.5.1"
 retrofit-kotlin-serialization = "1.0.0"
 coil = "2.4.0"
 fragment-ktx = "1.6.0"
-epic-adapter = "1.0.8"
+epic-adapter = "1.0.9"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }

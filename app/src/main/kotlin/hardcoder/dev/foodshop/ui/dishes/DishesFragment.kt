@@ -103,8 +103,13 @@ class DishesFragment : Fragment(R.layout.fragment_dishes) {
     private fun setUpRecyclerView() = with(binding) {
         tagRecyclerView.adapter = EpicAdapter {
             setup<Tag, ItemTagBinding>(ItemTagBinding::inflate) {
-                bind { scope, _, item ->
-                    root.setOnClickListener { viewModel.filterByTag(item) }
+                init { item ->
+                    root.setOnClickListener {
+                        viewModel.filterByTag(item.value)
+                    }
+                }
+
+                bind { scope, _, _, item ->
                     tagTextView.apply {
                         text = item.name
 

@@ -33,10 +33,9 @@ val viewModelsModule = module {
 
     viewModel {
         CartViewModel(
-            decrementCartItemUseCase = get(),
             incrementCartItemUseCase = get(),
-            getAllCartItemsUseCase = get(),
-            getDishByIdUseCase = get()
+            decrementCartItemUseCase = get(),
+            getAllCartItemsUseCase = get()
         )
     }
 }
