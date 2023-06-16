@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,13 +15,15 @@ import epicarchitect.recyclerview.EpicAdapter
 import epicarchitect.recyclerview.bind
 import epicarchitect.recyclerview.requireEpicAdapter
 import hardcoder.dev.coroutines.launchWith
+import hardcoder.dev.domain.entities.Dish
+import hardcoder.dev.domain.entities.Tag
+import hardcoder.dev.presentation.CategoriesViewModel
 import hardcoder.dev.presentation.DishesViewModel
-import hardcoder.dev.presentation.ItemDish
-import hardcoder.dev.presentation.ItemTag
 import hardcoderdev.foodshop.app.R
 import hardcoderdev.foodshop.app.databinding.FragmentDishesBinding
 import hardcoderdev.foodshop.app.databinding.ItemDishBinding
 import hardcoderdev.foodshop.app.databinding.ItemTagBinding
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -38,12 +41,55 @@ class DishesFragment : Fragment(R.layout.fragment_dishes) {
     }
 
     private fun subscribeToObservables() = with(viewModel) {
-        resultTagList.onEach { tagsList ->
-            binding.tagRecyclerView.requireEpicAdapter().loadItems(tagsList)
+        dishesList.onEach { loadingState ->
+            when (loadingState) {
+                is DishesViewModel.LoadingState.Loaded -> {
+                    when (loadingState.refreshState) {
+                        is DishesViewModel.RefreshState.Error -> {
+                            with(binding) {
+                                progressBar.isVisible = false
+                                dishesRecyclerView.isVisible = false
+                                internetDisconnectedTextView.isVisible = true
+                                refreshButton.isVisible = true
+                                refreshButton.setOnClickListener {
+                                    viewModel.refreshDishes()
+                                }
+                            }
+                        }
+                        DishesViewModel.RefreshState.Loaded -> {
+                            with(binding) {
+                                progressBar.isVisible = false
+                                dishesRecyclerView.isVisible = true
+                                internetDisconnectedTextView.isVisible = false
+                                refreshButton.isVisible = false
+                                dishesRecyclerView.requireEpicAdapter().loadItems(
+                                    loadingState.dishes
+                                )
+                            }
+                        }
+                        DishesViewModel.RefreshState.Loading -> {
+                            with(binding) {
+                                progressBar.isVisible = true
+                                dishesRecyclerView.isVisible = false
+                                internetDisconnectedTextView.isVisible = false
+                                refreshButton.isVisible = false
+                            }
+                        }
+                    }
+                }
+                is DishesViewModel.LoadingState.Loading -> {
+                    with(binding) {
+                        progressBar.isVisible = true
+                        dishesRecyclerView.isVisible = false
+                        internetDisconnectedTextView.isVisible = false
+                        refreshButton.isVisible = false
+                    }
+                }
+            }
         }.launchWith(viewLifecycleOwner)
 
-        dishesList.onEach { dishesList ->
-            binding.dishesRecyclerView.requireEpicAdapter().loadItems(dishesList)
+        sortedTagList.onEach { tagsList ->
+            binding.tagRecyclerView.requireEpicAdapter().loadItems(tagsList)
         }.launchWith(viewLifecycleOwner)
     }
 
@@ -56,28 +102,32 @@ class DishesFragment : Fragment(R.layout.fragment_dishes) {
 
     private fun setUpRecyclerView() = with(binding) {
         tagRecyclerView.adapter = EpicAdapter {
-            setup<ItemTag, ItemTagBinding>(ItemTagBinding::inflate) {
-                bind { item ->
+            setup<Tag, ItemTagBinding>(ItemTagBinding::inflate) {
+                bind { scope, _, item ->
                     root.setOnClickListener { viewModel.filterByTag(item) }
                     tagTextView.apply {
-                        text = item.title
-                        setTextColor(if (item.isSelected) Color.WHITE else Color.BLACK)
-                        background = ResourcesCompat.getDrawable(
-                            context.resources,
-                            if (item.isSelected) {
-                                R.drawable.tag_active
-                            } else {
-                                R.drawable.tag_inactive
-                            },
-                            context.theme
-                        )
+                        text = item.name
+
+                        viewModel.selectedTag.onEach {
+                            val isSelected = item == it
+                            setTextColor(if (isSelected) Color.WHITE else Color.BLACK)
+                            background = ResourcesCompat.getDrawable(
+                                context.resources,
+                                if (isSelected) {
+                                    R.drawable.tag_active
+                                } else {
+                                    R.drawable.tag_inactive
+                                },
+                                context.theme
+                            )
+                        }.launchIn(scope)
                     }
                 }
             }
         }
 
         dishesRecyclerView.adapter = EpicAdapter {
-            setup<ItemDish, ItemDishBinding>(ItemDishBinding::inflate) {
+            setup<Dish, ItemDishBinding>(ItemDishBinding::inflate) {
                 bind { item ->
                     root.setOnClickListener {
                         findNavController().navigate(
@@ -87,7 +137,7 @@ class DishesFragment : Fragment(R.layout.fragment_dishes) {
                         )
                     }
 
-                    titleTextView.text = item.title
+                    titleTextView.text = item.name
                     dishImageView.load(item.imageUrl) {
                         crossfade(enable = true)
                         transformations(RoundedCornersTransformation(16f))

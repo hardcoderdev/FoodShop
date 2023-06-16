@@ -2,7 +2,7 @@ package hardcoder.dev.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import hardcoder.dev.coroutines.mapItems
+import hardcoder.dev.domain.entities.Category
 import hardcoder.dev.domain.entities.Dish
 import hardcoder.dev.domain.entities.Tag
 import hardcoder.dev.domain.useCases.dishes.GetAllDishesByTagUseCase
@@ -19,15 +19,18 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DishesViewModel(
-    refreshDishesUseCase: RefreshDishesUseCase,
     getAllTagsUseCase: GetAllTagsUseCase,
+    private val refreshDishesUseCase: RefreshDishesUseCase,
     private val getAllDishesByTagUseCase: GetAllDishesByTagUseCase,
 ) : ViewModel() {
 
-    private val sortedTagList = getAllTagsUseCase().map {
+    private val refreshState = MutableStateFlow<RefreshState>(RefreshState.Loading)
+
+    val sortedTagList = getAllTagsUseCase().map {
         it.sortedBy { tag -> tag.name }
     }.stateIn(
         scope = viewModelScope,
@@ -38,68 +41,49 @@ class DishesViewModel(
     private var _selectedTag = MutableStateFlow<Tag?>(null)
     val selectedTag = _selectedTag.asStateFlow()
 
-    val resultTagList = combine(
-        sortedTagList,
-        selectedTag
-    ) { tagList, selectedTag ->
-        tagList.map { it.toUI(it == selectedTag) }
+    val dishesList = combine(
+        refreshState,
+        _selectedTag.flatMapLatest {
+            if (it == null) flowOf(emptyList())
+            else getAllDishesByTagUseCase(it)
+        }
+    ) { refreshState, dishes ->
+        LoadingState.Loaded(refreshState = refreshState, dishes = dishes)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
-        initialValue = emptyList()
+        initialValue = LoadingState.Loading
     )
 
-    val dishesList = _selectedTag.flatMapLatest {
-        if (it == null) flowOf(emptyList())
-        else getAllDishesByTagUseCase(it).mapItems { dish ->
-            dish.toUIDish()
+    fun refreshDishes() {
+        viewModelScope.launch {
+            try {
+                refreshState.value = RefreshState.Loading
+                refreshDishesUseCase()
+                _selectedTag.value = sortedTagList.first().first()
+                refreshState.value = RefreshState.Loaded
+            } catch (e: Exception) {
+                refreshState.value = RefreshState.Error(e)
+            }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = emptyList()
-    )
+    }
+
+    fun filterByTag(tag: Tag) {
+        _selectedTag.value = tag
+    }
 
     init {
-        viewModelScope.launch {
-            refreshDishesUseCase()
-            _selectedTag.value = sortedTagList.first().first()
-        }
+        refreshDishes()
     }
 
-    fun filterByTag(itemTag: ItemTag) {
-        _selectedTag.value = itemTag.toDomain()
+    sealed class RefreshState {
+        object Loading : RefreshState()
+        object Loaded : RefreshState()
+        data class Error(val exception: Exception) : RefreshState()
+    }
+
+    sealed class LoadingState {
+        object Loading : LoadingState()
+        data class Loaded(val refreshState: RefreshState, val dishes: List<Dish>) : LoadingState()
     }
 }
-
-private fun Dish.toUIDish() = ItemDish(
-    id = id,
-    title = name,
-    description = description,
-    imageUrl = imageUrl,
-    weight = weight,
-    price = price
-)
-
-private fun Tag.toUI(isSelected: Boolean) = ItemTag(
-    title = name,
-    isSelected = isSelected
-)
-
-private fun ItemTag.toDomain() = Tag(
-    name = title
-)
-
-data class ItemDish(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val imageUrl: String,
-    val weight: Int,
-    val price: Int
-)
-
-data class ItemTag(
-    val title: String,
-    var isSelected: Boolean
-)

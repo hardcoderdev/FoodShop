@@ -31,7 +31,6 @@ dependencies {
     implementation(libs.bundles.navigation)
     implementation(libs.bundles.di)
     implementation(libs.bundles.ui)
-    implementation(libs.bundles.adapter.delegates)
     implementation(libs.coil)
     implementation(libs.epic.adapter)
 }

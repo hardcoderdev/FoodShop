@@ -43,7 +43,7 @@ class CartViewModel(
     )
 
     val totalCartSum = cartItems.map { cartItemsList ->
-        cartItemsList.sumOf { it.price * if (it.quantity == 0) 1 else it.quantity }
+        cartItemsList.sumOf { it.dish.price * if (it.quantity == 0) 1 else it.quantity }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
@@ -64,20 +64,15 @@ class CartViewModel(
 }
 
 data class DishCartItem(
-    val id: Int,
-    val title: String,
-    val description: String,
-    val imageUrl: String,
-    val weight: Int,
-    val price: Int,
+    val dish: Dish,
     val quantity: Int
 )
 
 private fun Dish.toDishCart(quantity: Int) = DishCartItem(
-    id, name, description, imageUrl, weight, price, quantity
+    this, quantity
 )
 
 private fun DishCartItem.toCartItem() = CartItem(
-    dishId = id,
+    dishId = dish.id,
     quantity = quantity
 )

@@ -10,14 +10,13 @@ retrofit = "2.9.0"
 retrofit-gson-converter = "2.9.0"
 koin = "3.4.2"
 navigation-component = "2.6.0"
-adapter-delegates = "4.3.2"
 view-binding-delegate = "1.5.9"
 kotlin-serialization = "1.5.1"
 room-database = "2.5.1"
 retrofit-kotlin-serialization = "1.0.0"
 coil = "2.4.0"
 fragment-ktx = "1.6.0"
-epic-adapter = "1.0.7"
+epic-adapter = "1.0.8"
 
 [libraries]
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
@@ -34,8 +33,6 @@ retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "re
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation-component" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-component" }
-adapter-delegates = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl", version.ref = "adapter-delegates" }
-adapter-delegates-view-binding = { group = "com.hannesdorfmann", name = "adapterdelegates4-kotlin-dsl-viewbinding", version.ref = "adapter-delegates" }
 epic-adapter = { group = "com.github.epicarchitect", name = "epic-adapter", version.ref = "epic-adapter" }
 view-binding-delegate = { group = "com.github.kirich1409", name = "viewbindingpropertydelegate-noreflection", version.ref = "view-binding-delegate" }
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
@@ -60,4 +57,3 @@ room-database = [ "room-runtime", "room-ktx" ]
 navigation = [ "navigation-fragment", "navigation-ui" ]
 di = [ "koin-android" ]
 ui = [ "view-binding-delegate" ]
-adapter-delegates = [ "adapter-delegates", "adapter-delegates-view-binding" ]

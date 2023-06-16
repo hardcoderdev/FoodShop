@@ -58,11 +58,11 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                         viewModel.incrementCartItem(item)
                     }
 
-                    titleTextView.text = item.title
-                    priceTextView.text = getString(R.string.price_format, item.price)
-                    weightTextView.text = getString(R.string.weight_format, item.weight)
+                    titleTextView.text = item.dish.name
+                    priceTextView.text = getString(R.string.price_format, item.dish.price)
+                    weightTextView.text = getString(R.string.weight_format, item.dish.weight)
                     quantityTextView.text = item.quantity.toString()
-                    dishImageView.load(item.imageUrl) {
+                    dishImageView.load(item.dish.imageUrl) {
                         crossfade(enable = true)
                         transformations(RoundedCornersTransformation(16f))
                     }

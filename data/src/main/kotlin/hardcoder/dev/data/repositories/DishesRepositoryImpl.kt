@@ -47,15 +47,15 @@ class DishesRepositoryImpl(
 
     override suspend fun refreshDishes() = withContext(ioDispatcher) {
         foodAPI.getAllDishes().dishes.let { dishes ->
-            dishDao.deleteAllDishes()
-            tagDao.deleteAllTags()
-            dishWithTagDao.deleteAllDishesWithTags()
+            appDatabase.withTransaction {
+                dishDao.deleteAllDishes()
+                tagDao.deleteAllTags()
+                dishWithTagDao.deleteAllDishesWithTags()
 
-            dishes.forEach { dishRemote ->
-                val dishLocal = dishRemote.toLocal()
-                val tagList = dishRemote.tagList.map { TagLocal(name = it) }
+                dishes.forEach { dishRemote ->
+                    val dishLocal = dishRemote.toLocal()
+                    val tagList = dishRemote.tagList.map { TagLocal(name = it) }
 
-                appDatabase.withTransaction {
                     dishDao.insert(dishLocal)
                     tagList.forEach { tag ->
                         tagDao.insert(tag)

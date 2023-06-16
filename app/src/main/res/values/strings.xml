@@ -10,4 +10,6 @@
     <string name="weight_format">· %dг</string>
     <string name="placeholder_dish_description">Рыба маринованная со специями, лимонным соком, соевым соусом и запечeнная в духовке с лучком, томатами и картошечкой под золотистой майонезно-сырной шубкой</string>
     <string name="add_to_cart_button_label">Добавить в корзину</string>
+    <string name="internet_disconnected_label">У вас отсутствует интернет.</string>
+    <string name="refresh_label">Обновить</string>
 </resources>

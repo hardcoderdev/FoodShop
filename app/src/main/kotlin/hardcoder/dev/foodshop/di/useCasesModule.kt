@@ -10,14 +10,12 @@ import hardcoder.dev.domain.useCases.cart.IncrementCartItemUseCase
 import hardcoder.dev.domain.useCases.cart.PutItemInCartUseCase
 import hardcoder.dev.domain.useCases.categories.RefreshCategoriesUseCase
 import hardcoder.dev.domain.useCases.dishes.RefreshDishesUseCase
-import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
 val useCasesModule = module {
     single {
         RefreshDishesUseCase(
-            dishesRepository = get(),
-            ioDispatcher = Dispatchers.IO
+            dishesRepository = get()
         )
     }
 
@@ -47,8 +45,7 @@ val useCasesModule = module {
 
     single {
         RefreshCategoriesUseCase(
-            categoriesRepository = get(),
-            ioDispatcher = Dispatchers.IO
+            categoriesRepository = get()
         )
     }
 
@@ -60,22 +57,19 @@ val useCasesModule = module {
 
     single {
         PutItemInCartUseCase(
-            cartRepository = get(),
-            ioDispatcher = Dispatchers.IO
+            cartRepository = get()
         )
     }
 
     single {
         IncrementCartItemUseCase(
-            cartRepository = get(),
-            ioDispatcher = Dispatchers.IO
+            cartRepository = get()
         )
     }
 
     single {
         DecrementCartItemUseCase(
-            cartRepository = get(),
-            ioDispatcher = Dispatchers.IO
+            cartRepository = get()
         )
     }
 }

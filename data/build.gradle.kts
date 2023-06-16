@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.domain)
+    api(projects.domain)
     api(projects.foundation.coroutines)
     api(libs.bundles.retrofit)
     api(libs.kotlin.serialization)
